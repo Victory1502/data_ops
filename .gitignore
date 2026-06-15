@@ -1,6 +1,7 @@
 # Données générées
 data/
 *.csv
+!data.csv
 !requirements.txt
 
 # IDE
