@@ -1,0 +1,16 @@
+# Données générées
+data/
+*.csv
+!requirements.txt
+
+# IDE
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Spark/Hadoop
+*.crc
+_SUCCESS

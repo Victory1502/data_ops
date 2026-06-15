@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  airflow:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
+      - AIRFLOW__WEBSERVER__SECRET_KEY=dataops_secret_2026
+      - JAVA_HOME=/usr/lib/jvm/default-java
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - .:/app
+    ports:
+      - "8080:8080"
+    command: >
+      bash -c "
+        airflow db migrate &&
+        airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@dataops.com 2>/dev/null; true &&
+        airflow webserver &
+        sleep 10 &&
+        airflow scheduler
+      "
